@@ -1,26 +1,31 @@
 <template>
   <div class="dashboard">
     <h1>dashboard</h1>
-    {{ hospital }}
 
-    {{ inventoryItemFormData }}
-
-    <!-- <button @click="addInventoryItem()">Add inventory item test</button> -->
+    <div>
+      <v-data-table
+        :headers="tableHeaders"
+        :items="Object.values(hospital.inventory.items)"
+        :item-key="itemKey"
+      >
+      </v-data-table>
+    </div>
 
     <AppModal title="Add inventory item">
       <template v-slot:activator="{ openModal }">
-        <v-btn text="Open Dialog" @click="openModal">Add inventory item</v-btn>
+        <v-btn @click="openModal">Add inventory item</v-btn>
       </template>
 
-      <template v-slot:content>
+      <template v-slot:content="{ closeModal }">
         <AppForm
+          ref="InventoryForm"
           :formFields="hospital.config.tables.HospitalInventory"
-          v-model="inventoryItemFormData"
+          @submit="addInventoryItem($event, closeModal)"
         />
       </template>
 
-      <template v-slot:actions="{ closeModal }">
-        <v-btn @click="addInventoryItem(closeModal)">Add item</v-btn>
+      <template #actions>
+        <v-btn @click="submitInventoryForm()">Add item</v-btn>
       </template>
       <template v-slot:deactivator="{ closeModal }">
         <v-btn @click="closeModal">Cancel</v-btn>
@@ -39,24 +44,23 @@ export default {
     AppModal,
     AppForm,
   },
-  data() {
-    return {
-      inventoryItemFormData: null,
-    };
-  },
   computed: {
     ...mapGetters({
       hospital: "hospital/getHospital",
     }),
+    tableHeaders() {
+      return this.hospital.config.tables.HospitalInventory.map((field) => ({
+        text: field.displayName,
+        value: field.name,
+      }));
+    },
   },
   methods: {
-    addInventoryItem(callback) {
-      this.hospital.inventory.addItem({
-        name: "test",
-        quantity: 1,
-        price: 1,
-        hospitalId: this.hospital.id,
-      });
+    submitInventoryForm() {
+      this.$refs.InventoryForm.submitForm();
+    },
+    addInventoryItem(formData, callback) {
+      this.hospital.inventory.addItem(formData);
       callback();
     },
     removeInventoryItem() {

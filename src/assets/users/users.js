@@ -11,12 +11,12 @@ export const users = [
           HospitalInventory: [
             {
               name: "item_name",
-              displayName: "Name",
+              displayName: "Item name",
               validation: { required: true },
             },
             {
               name: "item_number",
-              displayName: "Number",
+              displayName: "Item number",
               validation: { required: true },
             },
             {
@@ -51,12 +51,12 @@ export const users = [
           HospitalInventory: [
             {
               name: "item_name",
-              displayName: "Name",
+              displayName: "Item name",
               validation: { required: true },
             },
             {
               name: "item_number",
-              displayName: "Number",
+              displayName: "Item number",
               validation: { required: true },
             },
             {

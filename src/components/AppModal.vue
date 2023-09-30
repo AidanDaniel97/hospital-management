@@ -11,7 +11,7 @@
         </v-card-title>
 
         <v-card-text>
-          <slot name="content"></slot>
+          <slot name="content" :closeModal="closeModal"></slot>
         </v-card-text>
         <v-card-actions>
           <slot name="actions" :closeModal="closeModal"></slot>

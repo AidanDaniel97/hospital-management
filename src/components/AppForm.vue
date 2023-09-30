@@ -1,14 +1,17 @@
 <template>
-  <v-form v-model="form.valid">
+  <v-form v-if="form" v-model="form.valid" @submit.prevent="submitForm">
+    <p v-for="(field, key) in form.fields" :key="key">
+      {{ field }}
+    </p>
     <v-container>
       <v-row>
         <v-col cols="12">
           <v-text-field
-            v-for="(value, key) in form.fields"
-            v-model="field"
-            :label="value.displayName"
-            required
+            v-for="(field, key) in form.fields"
             :key="key"
+            @input="updateFieldValue(field.name, $event)"
+            :label="field.displayName"
+            required
           ></v-text-field>
         </v-col>
       </v-row>
@@ -26,19 +29,28 @@ export default {
   },
   data() {
     return {
-      form: null,
+      form: new Form(this.formFields),
     };
   },
-  mounted() {
-    this.form = new Form(this.formFields);
+  methods: {
+    updateFieldValue(field, value) {
+      this.form.setFieldValue(field, value);
+    },
+    submitForm() {
+      if (this.form.valid) {
+        this.$emit("submit", this.form.getFormData());
+        this.form.clearFormData();
+      }
+      // TODO: Handle invalid form
+    },
   },
   watch: {
-    // form: {
-    //   handler(val) {
-    //     this.$emit("input", val);
-    //   },
-    //   deep: true,
-    // },
+    form: {
+      handler(val) {
+        this.$emit("input", val);
+      },
+      deep: true,
+    },
   },
 };
 </script>

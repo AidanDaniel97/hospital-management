@@ -1,21 +1,9 @@
 export class InventoryItem {
-  constructor(
-    id,
-    productName,
-    itemNumber,
-    manufacturer,
-    category,
-    quantity,
-    expiryDate,
-    price
-  ) {
-    this.id = id;
-    this.productName = productName;
-    this.itemNumber = itemNumber;
-    this.manufacturer = manufacturer;
-    this.category = category;
-    this.quantity = quantity;
-    this.expiryDate = expiryDate;
-    this.price = price;
+  constructor(itemData) {
+    // loop through item data and set the properties
+    // TODO: Specify the properties that can be set
+    for (const property in itemData) {
+      this[property] = itemData[property];
+    }
   }
 }
