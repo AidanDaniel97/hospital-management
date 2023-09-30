@@ -1,3 +1,6 @@
 nimcache/
 nimblecache/
 htmldocs/
+
+# Node modules
+node_modules/
