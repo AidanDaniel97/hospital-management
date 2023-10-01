@@ -24,9 +24,7 @@ export class Form {
   }
 
   // Set multiple form data values at once
-  setFormFields(formData) {
-    console.log(formData)
-    console.log(Object.keys(formData))
+  setFormFields(formData) { 
     Object.keys(formData).forEach((fieldName) => {
       this.setFieldValue(fieldName, formData[fieldName]);
     });

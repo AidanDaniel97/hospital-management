@@ -34,6 +34,10 @@ const actions = {
     commit("SET_USER", user);
     dispatch("hospital/setHospital", user.hospital, { root: true });
   },
+  logout({ commit }) {
+    commit("SET_AUTHENTICATED", false);
+    commit("SET_USER", null);
+  }
 };
 
 export default {
