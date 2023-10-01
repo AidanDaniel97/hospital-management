@@ -3,32 +3,48 @@
     <h1>dashboard</h1>
 
     <div>
-      <v-data-table
-        :headers="tableHeaders"
-        :items="Object.values(hospital.inventory.items)"
-        :item-key="itemKey"
-      >
+      <v-data-table :headers="tableHeaders" :items="tableItems">
+        <template v-slot:[`item.actions`]="{ item }">
+          <v-icon
+            size="small"
+            class="me-2"
+            @click="setEditingInventoryItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon size="small" @click="removeInventoryItem(item)">
+            mdi-delete
+          </v-icon>
+        </template>
       </v-data-table>
     </div>
 
-    <AppModal title="Add inventory item">
+    <AppModal
+      @modalToggled="isModalOpen = $event"
+      ref="inventoryFormModal"
+      :title="`${editingInventoryItem ? 'Edit' : 'Add'} inventory item`"
+    >
       <template v-slot:activator="{ openModal }">
         <v-btn @click="openModal">Add inventory item</v-btn>
       </template>
 
       <template v-slot:content="{ closeModal }">
         <AppForm
+          v-if="isModalOpen"
           ref="InventoryForm"
           :formFields="hospital.config.tables.HospitalInventory"
-          @submit="addInventoryItem($event, closeModal)"
+          :initialFormData="editingInventoryItem"
+          @submit="handleInventoryFormSubmit($event, closeModal)"
         />
       </template>
 
       <template #actions>
-        <v-btn @click="submitInventoryForm()">Add item</v-btn>
+        <v-btn @click="submitInventoryForm()">{{
+          `${editingInventoryItem ? "Save changes" : "Add item"}`
+        }}</v-btn>
       </template>
       <template v-slot:deactivator="{ closeModal }">
-        <v-btn @click="closeModal">Cancel</v-btn>
+        <v-btn @click="handleCloseModal(closeModal)">Cancel</v-btn>
       </template>
     </AppModal>
   </div>
@@ -44,18 +60,50 @@ export default {
     AppModal,
     AppForm,
   },
+  data() {
+    return {
+      editingInventoryItem: null,
+      isModalOpen: false,
+    };
+  },
   computed: {
     ...mapGetters({
       hospital: "hospital/getHospital",
     }),
     tableHeaders() {
-      return this.hospital.config.tables.HospitalInventory.map((field) => ({
-        text: field.displayName,
-        value: field.name,
-      }));
+      let headers = this.hospital.config.tables.HospitalInventory.map(
+        (field) => ({
+          text: field.displayName,
+          value: field.name,
+        })
+      );
+
+      headers.push({
+        text: "Actions",
+        value: "actions",
+        sortable: false,
+      });
+
+      return headers;
+    },
+    tableItems() {
+      return Object.values(this.hospital.inventory.items);
     },
   },
   methods: {
+    handleCloseModal(closeModal) {
+      if (this.editingInventoryItem) {
+        this.editingInventoryItem = null;
+      }
+      closeModal();
+    },
+    handleInventoryFormSubmit(formData, callback) {
+      if (this.editingInventoryItem) {
+        this.editInventoryItem(formData, callback);
+      } else {
+        this.addInventoryItem(formData, callback);
+      }
+    },
     submitInventoryForm() {
       this.$refs.InventoryForm.submitForm();
     },
@@ -63,8 +111,17 @@ export default {
       this.hospital.inventory.addItem(formData);
       callback();
     },
-    removeInventoryItem() {
-      this.hospital.inventory;
+    editInventoryItem(formData, callback) {
+      this.hospital.inventory.editItem(this.editingInventoryItem.id, formData);
+      this.editingInventoryItem = null;
+      callback();
+    },
+    removeInventoryItem(item) {
+      this.hospital.inventory.removeItem(item.id);
+    },
+    setEditingInventoryItem(item = null) {
+      this.editingInventoryItem = item;
+      this.$refs.inventoryFormModal.openModal();
     },
   },
 };

@@ -9,9 +9,9 @@ Features include:
 - [ ] Sorting on inventory table
 - [ ] Filtering on inventory table
 - [ ] Displaying inventory items in a table view
-- [ ] Adding inventory items
-- [ ] Removing inventory items
-- [ ] Editing existing inventory items
+- [x] Adding inventory items
+- [x] Removing inventory items
+- [x] Editing existing inventory items
 - [ ] Jest tests for inventory logic
 - [ ] Cypress e2e test using fixtures
 

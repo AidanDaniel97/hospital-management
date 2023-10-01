@@ -39,6 +39,11 @@ export default {
       isModalOpen: false,
     };
   },
+  watch: {
+    isModalOpen(val) {
+      this.$emit("modalToggled", val)
+    },
+  },
   methods: {
     openModal() {
       this.isModalOpen = true;

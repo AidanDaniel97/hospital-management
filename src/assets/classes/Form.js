@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 export class Form {
-  constructor(fields) {
+  constructor(fields, formData = null) {
     this.fields = fields;
     this.errors = {};
 
@@ -9,6 +9,10 @@ export class Form {
     this.fields.forEach((field) => {
       Vue.set(field, "value", "");
     });
+
+    if(formData){
+      this.setFormFields(formData);
+    }
   }
 
   // Set form data value
@@ -17,6 +21,15 @@ export class Form {
     if (field) {
       field.value = value;
     }
+  }
+
+  // Set multiple form data values at once
+  setFormFields(formData) {
+    console.log(formData)
+    console.log(Object.keys(formData))
+    Object.keys(formData).forEach((fieldName) => {
+      this.setFieldValue(fieldName, formData[fieldName]);
+    });
   }
 
   // Get field name and value key pair
