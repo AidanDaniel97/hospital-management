@@ -8,12 +8,8 @@ export class Inventory {
 
   addItem(itemData) {
     const inventoryItem = new InventoryItem(itemData);
-    // Create a new entry with a unique ID
-    const entryId = Date.now().toString(36);
-    this.items.push({
-      id: entryId,
-      ...inventoryItem,
-    });
+    this.items.push(inventoryItem);
+    return inventoryItem;
   }
 
   removeItem(itemId) {
