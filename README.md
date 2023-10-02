@@ -15,6 +15,11 @@ Features include:
 - [x] Jest tests for inventory logic
 - [ ] Cypress e2e test using fixtures
 
+Bugs:
+
+- Add validation for empty inventory item form
+- Add validation for form field types
+
 ## Project setup
 
 ```

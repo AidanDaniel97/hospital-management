@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard">
-    <h1>dashboard</h1>
+  <div class="inventory">
+    <h1 class="py-5">Inventory</h1>
 
     <v-card>
       <v-card-text>
@@ -34,7 +34,9 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn @click="addMultipleItems()">Add multiple entries item</v-btn>
+        <v-btn color="indigo" dark @click="addMultipleItems()"
+          >Add multiple entries item</v-btn
+        >
         <v-spacer></v-spacer>
         <AppModal
           @modalToggled="isModalOpen = $event"
@@ -42,7 +44,9 @@
           :title="`${editingInventoryItem ? 'Edit' : 'Add'} inventory item`"
         >
           <template v-slot:activator="{ openModal }">
-            <v-btn @click="openModal">Add inventory item</v-btn>
+            <v-btn color="indigo" dark @click="openModal"
+              >Add inventory item</v-btn
+            >
           </template>
 
           <template v-slot:content="{ closeModal }">
@@ -56,12 +60,14 @@
           </template>
 
           <template #actions>
-            <v-btn @click="submitInventoryForm()">{{
+            <v-btn color="indigo" dark @click="submitInventoryForm()">{{
               `${editingInventoryItem ? "Save changes" : "Add item"}`
             }}</v-btn>
           </template>
           <template v-slot:deactivator="{ closeModal }">
-            <v-btn @click="handleCloseModal(closeModal)">Cancel</v-btn>
+            <v-btn color="gray" dark @click="handleCloseModal(closeModal)"
+              >Cancel</v-btn
+            >
           </template>
         </AppModal>
       </v-card-actions>
@@ -74,7 +80,7 @@ import AppModal from "@/components/AppModal.vue";
 import AppForm from "@/components/AppForm.vue";
 
 export default {
-  name: "dashboard-page",
+  name: "inventory-page",
   components: {
     AppModal,
     AppForm,

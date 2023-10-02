@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="activator" :openModal="openModal">
-      <v-btn @click="openModal">Open modal</v-btn>
+      <v-btn color="indigo" dark @click="openModal">Open modal</v-btn>
     </slot>
 
     <v-dialog v-model="isModalOpen" width="500">
@@ -18,7 +18,7 @@
           <v-spacer></v-spacer>
 
           <slot name="deactivator" :closeModal="closeModal">
-            <v-btn @click="closeModal">Close modal</v-btn>
+            <v-btn color="indigo" dark @click="closeModal">Close modal</v-btn>
           </slot>
         </v-card-actions>
       </v-card>
@@ -41,7 +41,7 @@ export default {
   },
   watch: {
     isModalOpen(val) {
-      this.$emit("modalToggled", val)
+      this.$emit("modalToggled", val);
     },
   },
   methods: {

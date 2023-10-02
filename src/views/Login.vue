@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" sm="8" md="4">
+      <v-col cols="12" sm="8" md="8">
         <v-card class="elevation-12">
-          <v-card-title class="teal lighten-2 white--text">Login</v-card-title>
+          <v-card-title class="indigo white--text">Login</v-card-title>
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
@@ -21,7 +21,7 @@
                 :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
-              <v-btn color="teal" dark block type="submit"> Login </v-btn>
+              <v-btn color="indigo" dark block type="submit"> Login </v-btn>
             </v-form>
           </v-card-text>
 
@@ -61,7 +61,7 @@ export default {
             password: this.form.password,
           });
 
-          this.$router.push("/dashboard"); // Redirect to the dashboard after successful login
+          this.$router.push("/inventory"); // Redirect to the dashboard after successful login
         } catch (error) {
           this.form.error = error.message;
         }

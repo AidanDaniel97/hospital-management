@@ -39,8 +39,8 @@ export default {
     menuItems() {
       return [
         {
-          title: "Dashboard",
-          path: "/dashboard",
+          title: "Inventory",
+          path: "/inventory",
           isVisible: this.isAuthenticated,
         },
         {
