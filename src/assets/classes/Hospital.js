@@ -5,6 +5,6 @@ export class Hospital {
     this.id = id;
     this.name = name;
     this.config = config;
-    this.inventory = new HospitalInventory(id);
+    this.inventory = new HospitalInventory(id, config.tables.HospitalInventory);
   }
 }

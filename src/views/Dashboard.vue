@@ -2,51 +2,70 @@
   <div class="dashboard">
     <h1>dashboard</h1>
 
-    <div>
-      <v-data-table :headers="tableHeaders" :items="tableItems">
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon
-            size="small"
-            class="me-2"
-            @click="setEditingInventoryItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon size="small" @click="removeInventoryItem(item)">
-            mdi-delete
-          </v-icon>
-        </template>
-      </v-data-table>
-    </div>
+    <v-card>
+      <v-card-text>
+        <v-data-table
+          :search="searchTerm"
+          :headers="tableHeaders"
+          :items="tableItems"
+        >
+          <!-- Search -->
+          <template v-slot:top>
+            <v-text-field
+              v-model="searchTerm"
+              label="Search"
+              class="pa-4"
+            ></v-text-field>
+          </template>
 
-    <AppModal
-      @modalToggled="isModalOpen = $event"
-      ref="inventoryFormModal"
-      :title="`${editingInventoryItem ? 'Edit' : 'Add'} inventory item`"
-    >
-      <template v-slot:activator="{ openModal }">
-        <v-btn @click="openModal">Add inventory item</v-btn>
-      </template>
+          <template v-slot:[`item.actions`]="{ item }">
+            <v-icon
+              size="small"
+              class="me-2"
+              @click="setEditingInventoryItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon size="small" @click="removeInventoryItem(item)">
+              mdi-delete
+            </v-icon>
+          </template>
+        </v-data-table>
+      </v-card-text>
 
-      <template v-slot:content="{ closeModal }">
-        <AppForm
-          v-if="isModalOpen"
-          ref="InventoryForm"
-          :formFields="hospital.config.tables.HospitalInventory"
-          :initialFormData="editingInventoryItem"
-          @submit="handleInventoryFormSubmit($event, closeModal)"
-        />
-      </template>
+      <v-card-actions>
+        <v-btn @click="addMultipleItems()">Add multiple entries item</v-btn>
+        <v-spacer></v-spacer>
+        <AppModal
+          @modalToggled="isModalOpen = $event"
+          ref="inventoryFormModal"
+          :title="`${editingInventoryItem ? 'Edit' : 'Add'} inventory item`"
+        >
+          <template v-slot:activator="{ openModal }">
+            <v-btn @click="openModal">Add inventory item</v-btn>
+          </template>
 
-      <template #actions>
-        <v-btn @click="submitInventoryForm()">{{
-          `${editingInventoryItem ? "Save changes" : "Add item"}`
-        }}</v-btn>
-      </template>
-      <template v-slot:deactivator="{ closeModal }">
-        <v-btn @click="handleCloseModal(closeModal)">Cancel</v-btn>
-      </template>
-    </AppModal>
+          <template v-slot:content="{ closeModal }">
+            <AppForm
+              v-if="isModalOpen"
+              ref="InventoryForm"
+              :formFields="inventoryFormFields"
+              :initialFormData="editingInventoryItem"
+              @submit="handleInventoryFormSubmit($event, closeModal)"
+            />
+          </template>
+
+          <template #actions>
+            <v-btn @click="submitInventoryForm()">{{
+              `${editingInventoryItem ? "Save changes" : "Add item"}`
+            }}</v-btn>
+          </template>
+          <template v-slot:deactivator="{ closeModal }">
+            <v-btn @click="handleCloseModal(closeModal)">Cancel</v-btn>
+          </template>
+        </AppModal>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 <script>
@@ -64,19 +83,21 @@ export default {
     return {
       editingInventoryItem: null,
       isModalOpen: false,
+      searchTerm: "",
     };
   },
   computed: {
     ...mapGetters({
       hospital: "hospital/getHospital",
     }),
+    inventoryFormFields() {
+      return this.hospital.config.tables.HospitalInventory.columns;
+    },
     tableHeaders() {
-      let headers = this.hospital.config.tables.HospitalInventory.map(
-        (field) => ({
-          text: field.displayName,
-          value: field.name,
-        })
-      );
+      let headers = this.inventoryFormFields.map((field) => ({
+        text: field.displayName,
+        value: field.name,
+      }));
 
       headers.push({
         text: "Actions",
@@ -87,10 +108,26 @@ export default {
       return headers;
     },
     tableItems() {
-      return Object.values(this.hospital.inventory.items);
+      return this.hospital.inventory.getSortedItems();
     },
   },
   methods: {
+    addMultipleItems() {
+      for (let i = 0; i < 50; i++) {
+        let randomData = {
+          item_name: "Item name",
+          item_number: Math.floor(Math.random() * 1000),
+          item_manufacturer: ["Man 1", "Man2", "Man 3"][
+            Math.floor(Math.random() * 3)
+          ],
+          item_category: ["Cat 1", "Cat2", "Cat 3"][
+            Math.floor(Math.random() * 3)
+          ],
+          item_quantity: Math.floor(Math.random() * 1000),
+        };
+        this.hospital.inventory.addItem(randomData);
+      }
+    },
     handleCloseModal(closeModal) {
       if (this.editingInventoryItem) {
         this.editingInventoryItem = null;

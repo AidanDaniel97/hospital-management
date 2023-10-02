@@ -1,8 +1,8 @@
-export class InventoryItem {
+export class ListItem {
   constructor(itemData) {
-    if(itemData.id === undefined){ 
+    if (itemData.id === undefined) {
       // Create a new entry with a unique ID
-      itemData.id = Date.now().toString(36);
+      itemData.id = Date.now().toString(36) + Math.random().toString(36);
     }
 
     // loop through item data and set the properties

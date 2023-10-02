@@ -30,10 +30,9 @@ const router = new VueRouter({
 router.beforeResolve((to, from, next) => {
   if (to.path === "/logout") {
     // Redirect to login and clear authentication
-    store.dispatch("auth/logout")
+    store.dispatch("auth/logout");
     next("/");
   } else if (to.matched.some((route) => route.meta.requiresAuth)) {
-    console.log("requiresAuth", store.getters["auth/getIsAuthenticated"])
     if (!store.getters["auth/getIsAuthenticated"]) {
       next("/");
     } else {

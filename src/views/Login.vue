@@ -21,7 +21,7 @@
                 :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
-              <v-btn color="teal" dark block @click="login"> Login </v-btn>
+              <v-btn color="teal" dark block type="submit"> Login </v-btn>
             </v-form>
           </v-card-text>
 

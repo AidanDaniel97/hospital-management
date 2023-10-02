@@ -6,13 +6,13 @@ Features include:
 
 - [x] Mocked login using a fixture file
 - [x] Configuration of inventory table columns
-- [ ] Sorting on inventory table
+- [x] Sorting on inventory table
 - [ ] Filtering on inventory table
-- [ ] Displaying inventory items in a table view
+- [x] Displaying inventory items in a table view
 - [x] Adding inventory items
 - [x] Removing inventory items
 - [x] Editing existing inventory items
-- [ ] Jest tests for inventory logic
+- [x] Jest tests for inventory logic
 - [ ] Cypress e2e test using fixtures
 
 ## Project setup
