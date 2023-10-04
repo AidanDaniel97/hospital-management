@@ -12,3 +12,9 @@ new Vue({
   router,
   render: (h) => h(App),
 }).$mount("#app");
+
+// Pass store into cypress
+if (window.Cypress) {
+  // Add `store` to the window object only when testing with Cypress
+  window.store = store;
+}

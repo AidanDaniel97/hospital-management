@@ -7,12 +7,14 @@
           <v-card-text>
             <v-form @submit.prevent="login">
               <v-text-field
+                data-cy="username"
                 label="Username"
                 v-model="form.username"
                 :error="formHasError"
                 required
               ></v-text-field>
               <v-text-field
+                data-cy="password"
                 label="Password"
                 v-model="form.password"
                 :error="formHasError"
@@ -21,12 +23,21 @@
                 :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
-              <v-btn color="indigo" dark block type="submit"> Login </v-btn>
+              <v-btn
+                data-cy="submit-login-form"
+                color="indigo"
+                dark
+                block
+                type="submit"
+              >
+                Login
+              </v-btn>
             </v-form>
           </v-card-text>
 
           <v-alert
             v-if="formHasError"
+            data-cy="error-message"
             variant="outlined"
             type="warning"
             class="mt-2"

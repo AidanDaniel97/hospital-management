@@ -5,6 +5,7 @@
     <v-card>
       <v-card-text>
         <v-data-table
+          data-cy="inventory-item-table"
           :search="searchTerm"
           :headers="tableHeaders"
           :items="tableItems"
@@ -26,7 +27,11 @@
             >
               mdi-pencil
             </v-icon>
-            <v-icon size="small" @click="removeInventoryItem(item)">
+            <v-icon
+              data-cy="delete-inventory-item"
+              size="small"
+              @click="removeInventoryItem(item)"
+            >
               mdi-delete
             </v-icon>
           </template>
@@ -34,9 +39,6 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="indigo" dark @click="addMultipleItems()"
-          >Add multiple entries item</v-btn
-        >
         <v-spacer></v-spacer>
         <AppModal
           @modalToggled="isModalOpen = $event"
@@ -44,13 +46,18 @@
           :title="`${editingInventoryItem ? 'Edit' : 'Add'} inventory item`"
         >
           <template v-slot:activator="{ openModal }">
-            <v-btn color="indigo" dark @click="openModal"
+            <v-btn
+              data-cy="add-inventory-item-btn"
+              color="indigo"
+              dark
+              @click="openModal"
               >Add inventory item</v-btn
             >
           </template>
 
           <template v-slot:content="{ closeModal }">
             <AppForm
+              data-cy="inventory-item-form"
               v-if="isModalOpen"
               ref="InventoryForm"
               :formFields="inventoryFormFields"
@@ -60,9 +67,15 @@
           </template>
 
           <template #actions>
-            <v-btn color="indigo" dark @click="submitInventoryForm()">{{
-              `${editingInventoryItem ? "Save changes" : "Add item"}`
-            }}</v-btn>
+            <v-btn
+              data-cy="submit-inventory-item-form"
+              color="indigo"
+              dark
+              @click="submitInventoryForm()"
+              >{{
+                `${editingInventoryItem ? "Save changes" : "Add item"}`
+              }}</v-btn
+            >
           </template>
           <template v-slot:deactivator="{ closeModal }">
             <v-btn color="gray" dark @click="handleCloseModal(closeModal)"
@@ -118,22 +131,6 @@ export default {
     },
   },
   methods: {
-    addMultipleItems() {
-      for (let i = 0; i < 50; i++) {
-        let randomData = {
-          item_name: "Item name",
-          item_number: Math.floor(Math.random() * 1000),
-          item_manufacturer: ["Man 1", "Man2", "Man 3"][
-            Math.floor(Math.random() * 3)
-          ],
-          item_category: ["Cat 1", "Cat2", "Cat 3"][
-            Math.floor(Math.random() * 3)
-          ],
-          item_quantity: Math.floor(Math.random() * 1000),
-        };
-        this.hospital.inventory.addItem(randomData);
-      }
-    },
     handleCloseModal(closeModal) {
       if (this.editingInventoryItem) {
         this.editingInventoryItem = null;

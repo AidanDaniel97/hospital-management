@@ -1,0 +1,29 @@
+[
+  {
+    "item_category": "Medication",
+    "item_name": "Painkiller Tablets",
+    "item_number": "M001",
+    "item_manufacturer": "Johnson & Johnson",
+    "item_quantity": 200,
+    "item_expiry_date": "2024-12-31",
+    "item_price": 19.99
+  },
+  {
+    "item_category": "Medical Equipment",
+    "item_name": "Digital Thermometer",
+    "item_number": "M002",
+    "item_manufacturer": "Braun",
+    "item_quantity": 50,
+    "item_expiry_date": "N/A",
+    "item_price": 34.99
+  },
+  {
+    "item_category": "Medical Supplies",
+    "item_name": "Sterile Gauze Pads",
+    "item_number": "M003",
+    "item_manufacturer": "3M Health Care",
+    "item_quantity": 1000,
+    "item_expiry_date": "2025-06-30",
+    "item_price": 8.99
+  }
+]

@@ -1,12 +1,12 @@
 <template>
   <v-form v-if="form" v-model="form.valid" @submit.prevent="submitForm">
-    <p v-for="(field, key) in form.fields" :key="key">
-    </p>
     <v-container>
       <v-row>
         <v-col cols="12">
           <v-text-field
             v-for="(field, key) in form.fields"
+            :data-cy="`form-field-${field.name}`"
+            :type="field.type"
             :key="key"
             @input="updateFieldValue(field.name, $event)"
             :value="field.value"
@@ -36,7 +36,7 @@ export default {
     return {
       form: new Form(this.formFields, this.initialFormData),
     };
-  }, 
+  },
   methods: {
     updateFieldValue(field, value) {
       this.form.setFieldValue(field, value);
