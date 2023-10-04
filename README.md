@@ -13,7 +13,7 @@ Features include:
 - [x] Removing inventory items
 - [x] Editing existing inventory items
 - [x] Jest tests for inventory logic
-- [ ] Cypress e2e test using fixtures
+- [x] Cypress e2e test using fixtures
 
 Bugs:
 

@@ -103,6 +103,12 @@ export const users = [
                 type: "number",
                 validation: { required: true },
               },
+              // {
+              //   name: "item_colour",
+              //   displayName: "Colour",
+              //   type: "string",
+              //   validation: { required: true },
+              // },
             ],
           },
         },

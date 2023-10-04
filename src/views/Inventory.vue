@@ -39,6 +39,9 @@
       </v-card-text>
 
       <v-card-actions>
+        <v-btn color="indigo" dark @click="addMultipleItems()"
+          >Add multiple entries item</v-btn
+        >
         <v-spacer></v-spacer>
         <AppModal
           @modalToggled="isModalOpen = $event"
@@ -131,6 +134,22 @@ export default {
     },
   },
   methods: {
+    addMultipleItems() {
+      for (let i = 0; i < 50; i++) {
+        let randomData = {
+          item_name: "Item name",
+          item_number: Math.floor(Math.random() * 1000),
+          item_manufacturer: ["Man 1", "Man2", "Man 3"][
+            Math.floor(Math.random() * 3)
+          ],
+          item_category: ["Cat 1", "Cat2", "Cat 3"][
+            Math.floor(Math.random() * 3)
+          ],
+          item_quantity: Math.floor(Math.random() * 1000),
+        };
+        this.hospital.inventory.addItem(randomData);
+      }
+    },
     handleCloseModal(closeModal) {
       if (this.editingInventoryItem) {
         this.editingInventoryItem = null;
